@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Service\CommissionCalculator as CommissionCalculatorService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -16,9 +18,25 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class CommissionCalculator extends Command
 {
+    public function __construct(
+        private readonly CommissionCalculatorService $calculator,
+    ) {
+        parent::__construct();
+    }
+
+    protected function configure(): void
+    {
+        $this
+            ->addArgument('file', InputArgument::REQUIRED, 'File to import');
+    }
     public function execute(InputInterface $input, OutputInterface $output): int
     {
-        echo 'HERE' . PHP_EOL;
+        $commissions = $this->calculator->calculateCommission($input->getArgument('file'));
+
+        foreach ($commissions as $commission) {
+            $output->writeln((string) $commission->getCommission());
+        }
+
         return Command::SUCCESS;
     }
 }

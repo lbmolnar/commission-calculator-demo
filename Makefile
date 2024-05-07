@@ -22,7 +22,7 @@ build: ## Builds the Docker images
 	@$(DOCKER_COMP) build --pull --no-cache
 
 up: ## Start the docker hub in detached mode (no logs)
-	@$(DOCKER_COMP) up --detach
+	@$(DOCKER_COMP) up --detach --wait --remove-orphans
 
 start: build up ## Build and start the containers
 
@@ -55,3 +55,13 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 
 cc: c=c:c ## Clear the cache
 cc: sf
+
+## —— Code quality tools ———————————————————————————————————————————————————————————————
+phpcs: ## Run PHP Code Sniffer
+	@$(PHP_CONT) vendor/bin/phpcs
+
+phpmd: ## Run PHP Mess Detector
+	@$(PHP_CONT) vendor/bin/phpmd ./src ansi ruleset.xml
+
+phpstan: ## Run PHP Mess Detector
+	@$(PHP_CONT) vendor/bin/phpstan

@@ -1,0 +1,7 @@
+{"bin":"12345","amount":"100.00","currency":"EUR"}
+Lorem ipsum dolor sit amet
+{"bin":"23456","amount":"200","currency":"JPY"}
+null
+{"bin":"34567","amount":"300","currency":"GBP"}
+
+{"bin":"45678","amount":"400","currency":"RON"}
